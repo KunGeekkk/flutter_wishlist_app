@@ -18,21 +18,13 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(labelText: "Email"),
-            ),
-            TextField(
-              controller: passwordController,
-              decoration: const InputDecoration(labelText: "Password"),
-            ),
+            TextField(controller: emailController, decoration: const InputDecoration(labelText: "Email")),
+            TextField(controller: passwordController, decoration: const InputDecoration(labelText: "Password")),
             ElevatedButton(
                 onPressed: () async { // Добавили слово async
                   try {
@@ -45,10 +37,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
                     // 3. Если строчка выше выполнилась без ошибок, значит юзер создан!
                     // Перекидываем его на главный экран
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomeScreen()),
-                    );
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
 
                   } catch (e) {
                     // Если пользователь ввел плохой email или слишком короткий пароль,
@@ -71,10 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
                   // 3. Если строчка выше выполнилась без ошибок, значит юзер создан!
                   // Перекидываем его на главный экран
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
-                  );
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
 
                 } catch (e) {
                   // Если пользователь ввел плохой email или слишком короткий пароль,
