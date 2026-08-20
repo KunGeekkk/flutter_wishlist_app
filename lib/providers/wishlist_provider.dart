@@ -24,4 +24,16 @@ class WishlistProvider extends ChangeNotifier{
       print("Error while adding: $e");
     }
   }
+
+  Stream<QuerySnapshot> getGiftsStream(){
+    final userId = _auth.currentUser!.uid;
+
+    return _db
+        .collection("users")
+        .doc(userId)
+        .collection("wishlist")
+        .orderBy("createdAt", descending: true)
+        .snapshots();
+  }
+
 }
