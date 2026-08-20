@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled1/providers/wishlist_provider.dart';
 import 'package:untitled1/screens/add_gift_screen.dart';
+import 'guest_wishlist_screen.dart';
 
 // Если нужно переходить на другие экраны, их тоже нужно импортировать сюда
 // import 'home_screen.dart';
@@ -16,7 +17,49 @@ class HomeScreen extends StatelessWidget {
     final provider = Provider.of<WishlistProvider>(context, listen:false);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("My Wish List")),
+      appBar: AppBar(
+        title: const Text('My Wish List'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              // Открываем диалоговое окно для ввода ID пользователя
+              final searchController = TextEditingController();
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Найти вишлист'),
+                  content: TextField(
+                    controller: searchController,
+                    decoration: const InputDecoration(hintText: "Введите ID пользователя"),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Отмена'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        final targetId = searchController.text.trim();
+                        if (targetId.isNotEmpty) {
+                          Navigator.pop(context); // Закрываем диалог
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GuestWishlistScreen(targetUserId: targetId),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('Найти'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          )
+        ],
+      ),
       body:StreamBuilder<QuerySnapshot>(
         stream: provider.getGiftsStream(),
         builder: (context, snapshot){
